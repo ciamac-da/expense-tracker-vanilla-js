@@ -5,6 +5,7 @@ const list = document.getElementById("list")
 const form = document.getElementById("form")
 const text = document.getElementById("text")
 const amount = document.getElementById("amount")
+const btn = document.getElementById("btn")
 
 
 const dummyTransactions = [
@@ -15,6 +16,32 @@ const dummyTransactions = [
 ]
 let transactions = dummyTransactions
 
+
+// Add Transaction
+const addTransaction = (e) => {
+  e.preventDefault();
+  if(text.value.trim() === "" || amount.value.trim() === "") {
+    alert("Please add a text and amount")
+  } else {
+    const transaction = {
+      id: generateID(),
+      text: text.value,
+      amount: +amount.value
+    }
+    transactions.push(transaction)
+    addTransactionToDOM(transaction)
+    updateValues()
+    text.value = ""
+    amount.value = ""
+  }
+}
+
+// Generate random ID
+const generateID = () => {
+  return Math.floor(Math.random() * 1000000000)
+}
+
+// Add transaction to DOM list
 const addTransactionToDOM = (transaction) => {
 // Get Sign
 const sign = transaction.amount < 0 ? "-" : "+";
@@ -27,7 +54,7 @@ item.classList.add(transaction.amount < 0 ? "minus" : "plus");
 item.innerHTML = `
 ${transaction.text}
 <span>${sign}${Math.abs(transaction.amount)}</span>
-<button class="delete-btn">X</button>
+<button class="delete-btn" onclick="removeTransaction(${transaction.id})">X</button>
 `;
 list.appendChild(item)
 }
@@ -49,9 +76,15 @@ const updateValues = () => {
   .reduce((acc, item) => (acc += item), 0) * -1)
   .toFixed(2)
 
-  balance.innerText = `$${total}`
-  money_plus.innerText = `$${income}`
-  money_minus.innerText = `$${expense}`
+  balance.innerText = `$${total}`;
+  money_plus.innerText = `$${income}`;
+  money_minus.innerText = `$${expense}`;
+}
+
+// Remove transaction by ID
+const removeTransaction = (id) => {
+  transactions = transactions.filter(transaction => transaction.id !== id)
+  init()
 }
 
 // Init app
@@ -61,3 +94,5 @@ const init = () => {
   updateValues()
 }
 init()
+
+btn.addEventListener("click", addTransaction)
