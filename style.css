@@ -53,6 +53,12 @@ border-right: 1px solid #dedede;
   letter-spacing: 1px;
   margin: 5px 0;
 }
+.balance_plus {
+  color: #2ecc71;
+}
+.balance_minus {
+  color: #c0392b;
+}
 .money.plus {
   color: #2ecc71;
 }

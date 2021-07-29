@@ -8,12 +8,6 @@ const amount = document.getElementById("amount")
 const btn = document.getElementById("btn")
 
 
-//const dummyTransactions = [
-//  { id: 1, text:"Flower", amount: -20},
-//  { id: 2, text:"Salary", amount: 300},
-//  { id: 3, text:"Book", amount: -10},
-//  { id: 4, text:"Camera", amount: 150},
-//]
 
 const localStorageTransaction = JSON.parse(localStorage.getItem("transactions"))
 
@@ -69,6 +63,11 @@ const updateValues = () => {
   return  transaction.amount
   })
   const total = amounts.reduce( (acc,item) => (acc += item),0).toFixed(2)
+  if(total > 0) {
+    balance.classList.add("balance_plus")
+  } else if(total < 0) {
+    balance.classList.add("balance_minus")
+  }
 
   const income = amounts
   .filter(item => item > 0)
